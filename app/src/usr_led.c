@@ -14,11 +14,13 @@
 static led_spd_t eBlinkSpd = LED_SPD_MID;
 
 static gpio_t leds[] = {
+    /**< PG13 */
     {
         GPIOG,
         GPIO_Pin_13,
         RCC_AHB1Periph_GPIOG,
     },
+    /**< PG14 */
     {
         GPIOG,
         GPIO_Pin_14,
