@@ -27,10 +27,19 @@ typedef enum led_e {
     LED4,
 } led_t;
 
+typedef enum led_spd_e {
+    LED_SPD_FAST    = 100,
+    LED_SPD_MID     = 500,
+    LED_SPD_SLOW    = 1000,
+} led_spd_t;
+
 EXT void usr_led_init(led_t led);
 EXT void usr_led_toggle(led_t led);
 EXT void usr_led_on(led_t led);
 EXT void usr_led_off(led_t led);
+
+EXT void usr_led_set_spd(led_spd_t spd);
+EXT led_spd_t usr_led_get_spd(void);
 
 #ifdef __cplusplus
 }

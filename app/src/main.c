@@ -10,6 +10,7 @@
 
 #include "util_clk.h"
 #include "usr_led.h"
+#include "usr_btn.h"
 
 #define MAIN_SET
 #include "main.h"
@@ -24,6 +25,8 @@ int main(void)
     usr_led_init(LED3);
     usr_led_init(LED4);
 
+    usr_btn_init(BTN_USER);
+
     usr_led_on(LED3);
     usr_led_off(LED4);
 
@@ -31,6 +34,6 @@ int main(void)
         usr_led_toggle(LED3);
         usr_led_toggle(LED4);
 
-        util_delay_ms(1000);
+        util_delay_ms(usr_led_get_spd());
     }
 }

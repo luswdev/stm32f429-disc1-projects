@@ -11,6 +11,8 @@
 #define USR_LED_SET
 #include "usr_led.h"
 
+static led_spd_t eBlinkSpd = LED_SPD_MID;
+
 static gpio_t leds[] = {
     {
         GPIOG,
@@ -71,4 +73,16 @@ void usr_led_off(
     )
 {
     util_gpio_off(leds[led]);
+}
+
+void usr_led_set_spd(
+    led_spd_t spd   /** led blink speed in main */
+    )
+{
+    eBlinkSpd = spd;
+}
+
+led_spd_t usr_led_get_spd(void)
+{
+    return eBlinkSpd;
 }
