@@ -28,6 +28,12 @@ typedef struct gpio_s {
     uint32_t        rcc_clock;
 } gpio_t;
 
+typedef struct gpio_af_s {
+    gpio_t          base;
+    uint8_t         source;
+    uint8_t         af;
+} gpio_af_t;
+
 EXT void util_gpio_toggle(gpio_t gpio);
 EXT void util_gpio_on(gpio_t gpio);
 EXT void util_gpio_off(gpio_t gpio);
