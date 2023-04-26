@@ -37,16 +37,27 @@ static uart_t uarts[] = {
     },
 };
 
+/**
+ * @brief initial uart to usb tty
+ */
 void usr_console_init(void)
 {
     util_uart_init(uarts[CONSOLE_USB_TTY], 9600);
 }
 
-void uart_console_puts(char str[])
+/**
+ * @brief output string to usb tty
+ */
+void uart_console_puts(
+    char str[]  /**< target string */
+    )
 {
     util_uart_puts(uarts[CONSOLE_USB_TTY], str);
 }
 
+/**
+ * @brief syscalls _write redirect to uart putc
+ */
 int _write(int file, char *ptr, int len)
 {
     int idx;

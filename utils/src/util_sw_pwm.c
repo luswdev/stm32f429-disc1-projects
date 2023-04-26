@@ -11,7 +11,13 @@
 #define UTIL_SW_PWM_SET
 #include "util_sw_pwm.h"
 
-void util_sw_pwm_start(sw_pwm_t pin, int32_t duty_cnt)
+/**
+ * @brief generate software pwm with n duty cycle
+ */
+void util_sw_pwm_start(
+    sw_pwm_t pin,       /**< pwm output target gpio pin */
+    int32_t duty_cnt    /**< n duty cycle to generate   */
+    )
 {
     if (pin.freq > TICK_PER_SECOND) {
         pin.freq = TICK_PER_SECOND;

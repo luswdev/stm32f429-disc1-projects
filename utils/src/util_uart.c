@@ -11,9 +11,13 @@
 #define UTIL_UART_SET
 #include "util_uart.h"
 
-static void uart_gpio_init(uart_t uart)
+/**
+ * @brief initial uart gpio
+ */
+static void uart_gpio_init(
+    uart_t uart     /**< target u(s)art */
+    )
 {
-
     RCC_AHB1PeriphClockCmd(uart.tx.base.rcc_clock,  ENABLE);
 
     GPIO_PinAFConfig(uart.tx.base.port, uart.tx.source, uart.tx.af);
@@ -34,7 +38,13 @@ static void uart_gpio_init(uart_t uart)
     GPIO_Init(uart.rx.base.port, &GPIO_InitStructure);
 }
 
-void util_uart_init(uart_t uart, uint32_t baudrate)
+/**
+ * @brief initial uart
+ */
+void util_uart_init(
+    uart_t uart,         /**< target u(s)art */
+    uint32_t baudrate    /**< uart baudrate  */
+    )
 {
     uart_gpio_init(uart);
 
@@ -54,14 +64,26 @@ void util_uart_init(uart_t uart, uint32_t baudrate)
     USART_Cmd(uart.uartx, ENABLE);
 }
 
-void util_uart_putc(uart_t uart, char ch)
+/**
+ * @brief output character to uart tx
+ */
+void util_uart_putc(
+    uart_t uart,    /**< target u(s)art     */
+    char ch         /**< target character   */
+    )
 {
     uart.uartx->DR = (uint8_t) ch;
 
-    while(USART_GetFlagStatus(uart.uartx, USART_FLAG_TXE) == RESET);
+    while (USART_GetFlagStatus(uart.uartx, USART_FLAG_TXE) == RESET);
 }
 
-void util_uart_puts(uart_t uart, char str[])
+/**
+ * @brief output string to uart tx
+ */
+void util_uart_puts(
+    uart_t uart,    /**< target u(s)art */
+    char str[]      /**< target string  */
+    )
 {
     while (*str) {
         util_uart_putc(uart, *str++);

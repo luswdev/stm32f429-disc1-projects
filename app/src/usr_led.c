@@ -79,6 +79,9 @@ void usr_led_off(
     util_gpio_off(leds[led]);
 }
 
+/**
+ * @brief set led output speed control level
+ */
 void usr_led_set_spd(
     led_spd_t spd   /** led blink speed in main */
     )
@@ -86,12 +89,22 @@ void usr_led_set_spd(
     eBlinkSpd = spd;
 }
 
+/**
+ * @brief get led output speed control level
+ */
 led_spd_t usr_led_get_spd(void)
 {
     return eBlinkSpd;
 }
 
-void usr_led_pwm(led_t led, int32_t freq, int32_t duty)
+/**
+ * @brief generate led output pwn with period PWM_CONTINUE_MS
+ */
+void usr_led_pwm(
+    led_t led,      /**< target led     */
+    int32_t freq,   /**< pwm frequency  */
+    int32_t duty    /**< pwm duty       */
+    )
 {
     sw_pwm_t pwm = {
         leds[led],
