@@ -11,9 +11,6 @@
 #define UTIL_CLK_SET
 #include "util_clk.h"
 
-#define TICK_PER_SECOND 1000
-#define MS_TO_TICK(ms)  ((ms * TICK_PER_SECOND) / 1000)
-
 static __IO uint32_t u32SysTicks;
 
 /**

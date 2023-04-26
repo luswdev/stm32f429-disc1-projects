@@ -22,15 +22,19 @@ extern "C" {
 
 #include <stm32f4xx.h>
 
+#include "util_sw_pwm.h"
+
+#define PWM_CONTINUE_MS     10
+
 typedef enum led_e {
     LED3,
     LED4,
 } led_t;
 
 typedef enum led_spd_e {
-    LED_SPD_FAST    = 100,
-    LED_SPD_MID     = 500,
-    LED_SPD_SLOW    = 1000,
+    LED_SPD_FAST,
+    LED_SPD_MID,
+    LED_SPD_SLOW,
 } led_spd_t;
 
 EXT void usr_led_init(led_t led);
@@ -40,6 +44,8 @@ EXT void usr_led_off(led_t led);
 
 EXT void usr_led_set_spd(led_spd_t spd);
 EXT led_spd_t usr_led_get_spd(void);
+
+EXT void usr_led_pwm(led_t led, int32_t freq, int32_t duty);
 
 #ifdef __cplusplus
 }

@@ -20,6 +20,12 @@ extern "C" {
 #define EXT extern
 #endif
 
+#include <stm32f4xx.h>
+
+#define TICK_PER_SECOND 10000
+#define MS_TO_TICK(ms)      ((ms * TICK_PER_SECOND) / 1000)
+#define TICK_TO_MS(tick)    ((tick * 1000) / TICK_PER_SECOND)
+
 typedef uint32_t tick_t;
 
 EXT void util_clock_init(void);

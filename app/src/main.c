@@ -16,6 +16,8 @@
 #define MAIN_SET
 #include "main.h"
 
+#define PWM_FREQ    1000
+
 static led_spd_t preLedSpd;
 
 /**
@@ -35,17 +37,22 @@ int main(void)
     usr_led_on(LED3);
     usr_led_off(LED4);
 
-    DBG_MSG("press button to change led blink speed...\r\n");
+    DBG_MSG("press button to change led pulse speed...\r\n");
     for ( ; ; ) {
-        usr_led_toggle(LED3);
-        usr_led_toggle(LED4);
-
-        led_spd_t curLedSpd = usr_led_get_spd();
+        led_spd_t curLedSpd = (usr_led_get_spd() * 2 + 1) * 10;
         if (preLedSpd != curLedSpd) {
-            DBG_MSG("blink per %d ms...\r\n", (int)curLedSpd);
+            DBG_MSG("pulse per %d ms...\r\n", (int)(DUTY_BASE / curLedSpd) * PWM_CONTINUE_MS);
         }
 
-        util_delay_ms(curLedSpd);
+        for (int i = 0; i <= DUTY_BASE; i += curLedSpd * 2) {
+            usr_led_pwm(LED3, PWM_FREQ, i);
+            //usr_led_pwm(LED4, PWM_FREQ, i);
+        }
+        for (int i = DUTY_BASE; i >= 0; i -= curLedSpd * 2) {
+            usr_led_pwm(LED3, PWM_FREQ, i);
+            //usr_led_pwm(LED4, PWM_FREQ, i);
+        }
+
         preLedSpd = curLedSpd;
     }
 }

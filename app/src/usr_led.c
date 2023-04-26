@@ -7,6 +7,8 @@
  */
 
 #include "util_gpio.h"
+#include "util_clk.h"
+#include "util_sw_pwm.h"
 
 #define USR_LED_SET
 #include "usr_led.h"
@@ -87,4 +89,22 @@ void usr_led_set_spd(
 led_spd_t usr_led_get_spd(void)
 {
     return eBlinkSpd;
+}
+
+void usr_led_pwm(led_t led, int32_t freq, int32_t duty)
+{
+    sw_pwm_t pwm = {
+        leds[led],
+        freq,
+        duty,
+    };
+
+    int32_t period_ms = TICK_TO_MS(TICK_PER_SECOND / freq);
+    if (period_ms > PWM_CONTINUE_MS) {
+        period_ms = PWM_CONTINUE_MS;
+        freq = TICK_PER_SECOND / MS_TO_TICK(PWM_CONTINUE_MS);
+    }
+
+    int32_t duty_cnt = PWM_CONTINUE_MS / period_ms;
+    util_sw_pwm_start(pwm, duty_cnt);
 }
