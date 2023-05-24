@@ -29,6 +29,7 @@ extern "C" {
 typedef enum led_e {
     LED3,
     LED4,
+    USR_LED,
 } led_t;
 
 typedef enum led_spd_e {

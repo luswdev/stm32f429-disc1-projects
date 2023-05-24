@@ -28,6 +28,12 @@ static gpio_t leds[] = {
         GPIO_Pin_14,
         RCC_AHB1Periph_GPIOG,
     },
+    /**< PG12 */
+    {
+        GPIOG,
+        GPIO_Pin_12,
+        RCC_AHB1Periph_GPIOG,
+    },
 };
 
 /**
