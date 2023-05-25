@@ -13,12 +13,7 @@
 
 static button_type_t btns[] = {
     {
-        /**< PA0 */
-        {
-            GPIOA,
-            GPIO_Pin_0,
-            RCC_AHB1Periph_GPIOA,
-        },
+        "PA0",
         BTN_MODE_EXTI,
         {
             EXTI_Line0,             /**< match with gpio pin */
@@ -36,14 +31,16 @@ void usr_btn_init(
     btn_t btn   /** button id */
     )
 {
-    RCC_AHB1PeriphClockCmd(btns[btn].gpio.rcc_clock, ENABLE);
+    gpio_t btn_gpio = util_gpio_get_by_name(btns[btn].gpio);
+
+    RCC_AHB1PeriphClockCmd(btn_gpio.rcc_clock, ENABLE);
 
     GPIO_InitTypeDef GPIO_InitStructure;
 
-    GPIO_InitStructure.GPIO_Pin = btns[btn].gpio.pin;
+    GPIO_InitStructure.GPIO_Pin = btn_gpio.pin;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
     GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;
-    GPIO_Init(btns[btn].gpio.port, &GPIO_InitStructure);
+    GPIO_Init(btn_gpio.port, &GPIO_InitStructure);
 
     if (btns[btn].mode == BTN_MODE_EXTI) {
         /* initial external interrupt for exti mode button */

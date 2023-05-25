@@ -18,24 +18,27 @@ static void uart_gpio_init(
     uart_t uart     /**< target u(s)art */
     )
 {
-    RCC_AHB1PeriphClockCmd(uart.tx.base.rcc_clock,  ENABLE);
+    gpio_t tx_gpio = util_gpio_get_by_name(uart.tx);
+    gpio_t rx_gpio = util_gpio_get_by_name(uart.rx);
 
-    GPIO_PinAFConfig(uart.tx.base.port, uart.tx.source, uart.tx.af);
-    GPIO_PinAFConfig(uart.rx.base.port, uart.rx.source, uart.rx.af);
+    RCC_AHB1PeriphClockCmd(tx_gpio.rcc_clock,  ENABLE);
+
+    GPIO_PinAFConfig(tx_gpio.port, tx_gpio.source, uart.af);
+    GPIO_PinAFConfig(rx_gpio.port, rx_gpio.source, uart.af);
 
     GPIO_InitTypeDef GPIO_InitStructure;
     GPIO_StructInit(&GPIO_InitStructure);
 
-    GPIO_InitStructure.GPIO_Pin   = uart.tx.base.pin;
+    GPIO_InitStructure.GPIO_Pin   = tx_gpio.pin;
     GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AF;
     GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(uart.tx.base.port, &GPIO_InitStructure);
+    GPIO_Init(tx_gpio.port, &GPIO_InitStructure);
 
-    GPIO_InitStructure.GPIO_Pin  = uart.rx.base.pin;
-  	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    GPIO_InitStructure.GPIO_Pin  = rx_gpio.pin;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
     GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-    GPIO_Init(uart.rx.base.port, &GPIO_InitStructure);
+    GPIO_Init(rx_gpio.port, &GPIO_InitStructure);
 }
 
 /**

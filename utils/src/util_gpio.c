@@ -6,8 +6,28 @@
  * @note    Copyright (c) 2023, LuSkywalker
  */
 
+#include <stddef.h>
+#include <stdlib.h>
+
 #define UTIL_GPIO_SET
 #include "util_gpio.h"
+
+gpio_t util_gpio_get_by_name(
+    const char gpio_name[]
+    )
+{
+    gpio_t gpio;
+
+    char port = gpio_name[1];
+    uint8_t pin = strtol(gpio_name + 2, NULL, 10);
+
+    gpio.port = (GPIO_TypeDef *)(AHB1PERIPH_BASE + 0x0400 * (port - 'A'));
+    gpio.pin = 0x01 << pin;
+    gpio.source = pin;
+    gpio.rcc_clock = 0x01 << (port - 'A');
+
+    return gpio;
+}
 
 /**
  * @brief toggle gpio

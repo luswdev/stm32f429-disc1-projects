@@ -34,7 +34,7 @@ typedef enum btn_mode_e {
 } btn_mode_t;
 
 typedef struct button_type_s {
-    gpio_t          gpio;
+    char gpio[8];
     btn_mode_t      mode;
     struct exti_t{
         uint16_t    line;

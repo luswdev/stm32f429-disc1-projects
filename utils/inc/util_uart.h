@@ -26,8 +26,10 @@ typedef struct uart_s {
     USART_TypeDef*  uartx;
     uint32_t        rcc_clock;
 
-    gpio_af_t       tx;
-    gpio_af_t       rx;
+    char            tx[8];
+    char            rx[8];
+
+    uint8_t         af;
 } uart_t;
 
 

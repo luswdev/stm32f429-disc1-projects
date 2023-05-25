@@ -16,24 +16,9 @@ static uart_t uarts[] = {
     {   /**< USART1 */
         USART1,
         RCC_APB2Periph_USART1,
-        {   /**< PA9 */
-            {
-                GPIOA,
-                GPIO_Pin_9,
-                RCC_AHB1Periph_GPIOA
-            },
-            GPIO_PinSource9,
-            GPIO_AF_USART1,
-        },
-        {   /**< PA10 */
-            {
-                GPIOA,
-                GPIO_Pin_10,
-                RCC_AHB1Periph_GPIOA
-            },
-            GPIO_PinSource10,
-            GPIO_AF_USART1,
-        },
+        "PA9",
+        "PA10",
+        GPIO_AF_USART1,
     },
 };
 

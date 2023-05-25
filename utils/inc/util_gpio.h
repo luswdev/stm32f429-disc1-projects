@@ -26,14 +26,10 @@ typedef struct gpio_s {
     GPIO_TypeDef*   port;
     uint16_t        pin;
     uint32_t        rcc_clock;
+    uint8_t         source;
 } gpio_t;
 
-typedef struct gpio_af_s {
-    gpio_t          base;
-    uint8_t         source;
-    uint8_t         af;
-} gpio_af_t;
-
+EXT gpio_t util_gpio_get_by_name(const char gpio_name[]);
 EXT void util_gpio_toggle(gpio_t gpio);
 EXT void util_gpio_on(gpio_t gpio);
 EXT void util_gpio_off(gpio_t gpio);

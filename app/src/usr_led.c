@@ -15,25 +15,8 @@
 
 static led_spd_t eBlinkSpd = LED_SPD_MID;
 
-static gpio_t leds[] = {
-    /**< PG13 */
-    {
-        GPIOG,
-        GPIO_Pin_13,
-        RCC_AHB1Periph_GPIOG,
-    },
-    /**< PG14 */
-    {
-        GPIOG,
-        GPIO_Pin_14,
-        RCC_AHB1Periph_GPIOG,
-    },
-    /**< PG12 */
-    {
-        GPIOG,
-        GPIO_Pin_12,
-        RCC_AHB1Periph_GPIOG,
-    },
+static char leds[][8] = {
+    "PG13", "PG14", "PG12",
 };
 
 /**
@@ -43,16 +26,18 @@ void usr_led_init(
     led_t led   /**< led id */
     )
 {
-    RCC_AHB1PeriphClockCmd(leds[led].rcc_clock, ENABLE);
+    gpio_t led_gpio = util_gpio_get_by_name(leds[led]);
+
+    RCC_AHB1PeriphClockCmd(led_gpio.rcc_clock, ENABLE);
 
     GPIO_InitTypeDef GPIO_InitStructure;
 
-    GPIO_InitStructure.GPIO_Pin = leds[led].pin;
+    GPIO_InitStructure.GPIO_Pin = led_gpio.pin;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
     GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
     GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(leds[led].port, &GPIO_InitStructure);
+    GPIO_Init(led_gpio.port, &GPIO_InitStructure);
 }
 
 /**
@@ -62,7 +47,8 @@ void usr_led_toggle(
     led_t led   /**< led id */
     )
 {
-    util_gpio_toggle(leds[led]);
+    gpio_t led_gpio = util_gpio_get_by_name(leds[led]);
+    util_gpio_toggle(led_gpio);
 }
 
 /**
@@ -72,7 +58,8 @@ void usr_led_on(
     led_t led   /**< led id */
     )
 {
-    util_gpio_on(leds[led]);
+    gpio_t led_gpio = util_gpio_get_by_name(leds[led]);
+    util_gpio_on(led_gpio);
 }
 
 /**
@@ -82,7 +69,8 @@ void usr_led_off(
     led_t led   /**< led id */
     )
 {
-    util_gpio_off(leds[led]);
+    gpio_t led_gpio = util_gpio_get_by_name(leds[led]);
+    util_gpio_off(led_gpio);
 }
 
 /**
@@ -113,7 +101,7 @@ void usr_led_pwm(
     )
 {
     sw_pwm_t pwm = {
-        leds[led],
+        util_gpio_get_by_name(leds[led]),
         freq,
         duty,
     };
